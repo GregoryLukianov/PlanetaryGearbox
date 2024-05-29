@@ -1,17 +1,17 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace _Scripts
 {
     public class ButtonsController: MonoBehaviour
     {
-        [FormerlySerializedAs("buttonDecisionComponents")] public ButtonComponent[] buttonComponents;
+        [SerializeField] private ButtonComponent[] buttonComponents;
+        
         public bool IsListOpened { get; private set; }
+        public ButtonComponent[] ButtonComponents => buttonComponents;
         
         
-        public void Start()
+        public void Initialize()
         {
             IsListOpened = false;
             foreach (var button in buttonComponents)
@@ -38,7 +38,7 @@ namespace _Scripts
 
         public void ChooseButton(DetailType detailType)
         {
-            var button = Array.Find(buttonComponents, x => x.detailType == detailType);
+            var button = Array.Find(buttonComponents, x => x.DetailType == detailType);
             
             if(button.IsSelected)
                 DeSelectButton(detailType);
@@ -46,11 +46,11 @@ namespace _Scripts
                 SelectButton(detailType);
         }
         
-        public void SelectButton(DetailType detailType)
+        private void SelectButton(DetailType detailType)
         {
             foreach (var button in buttonComponents)
             {
-                if (button.detailType == detailType)
+                if (button.DetailType == detailType)
                 {
                     button.Select();
                     continue;
@@ -60,11 +60,11 @@ namespace _Scripts
             }
         }
 
-        public void DeSelectButton(DetailType detailType)
+        private void DeSelectButton(DetailType detailType)
         {
             foreach (var button in buttonComponents)
             {
-                if (button.detailType == detailType)
+                if (button.DetailType == detailType)
                 {
                     button.DeSelect();
                     continue;

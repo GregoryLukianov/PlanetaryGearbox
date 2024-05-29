@@ -1,64 +1,59 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Scripts
 {
     public class MountingManager: MonoBehaviour
     {
-        public Mounting[] mountings;
-        
-        public bool IsActive { get; private set; }
+        [SerializeField] private Mounting[] mountings;
 
-        private void Start()
+        private bool _isActive;
+
+        
+        public void Initialize()
         {
-            IsActive = true;
+            _isActive = true;
+            
+            foreach (var mounting in mountings)
+                mounting.Initialize();
         }
 
         public void ChangeMountingVisible(DetailType detailType)
         {
-            if (!IsActive)
+            if (!_isActive)
                 return;
             
             foreach (var mounting in mountings)
-            {
-                foreach (var detailTypeInMounting in mounting.detailTypes)
+                foreach (var detailTypeInMounting in mounting.DetailTypes)
                 {
                     if (detailTypeInMounting != detailType)
                         continue;
                     
                     mounting.Change();
                 }
-            }
         }
 
         public void ChangeLinesStatus()
         {
-            if (IsActive)
+            if (_isActive)
                 TurnOff();
             else
-            {
                 TurnOn();
-            }
         }
 
         private void TurnOff()
         {
             foreach (var mounting in mountings)
-            {
                 mounting.Off();
-            }
 
-            IsActive = false;
+            _isActive = false;
         }
 
         private void TurnOn()
         {
             foreach (var mounting in mountings)
-            {
                 mounting.On();
-            }
 
-            IsActive = true;
+            _isActive = true;
         }
     }
 }

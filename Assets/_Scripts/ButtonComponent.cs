@@ -7,15 +7,17 @@ namespace _Scripts
 {
     public class ButtonComponent: MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        public DetailType detailType;
-        public Button button;
+        [SerializeField] private DetailType detailType;
+        [SerializeField] private Button button;
 
+        private Animator _animator;
+        
+        public bool IsSelected { get; private set; }
+        public DetailType DetailType => detailType;
+        
         public event Action<DetailType> OnPointerEnterButton;
         public event Action<DetailType> OnPointerExitButton;
         
-        public bool IsSelected { get; private set; }
-        
-        private Animator _animator;
         
         public void Initialize()
         {
@@ -37,15 +39,11 @@ namespace _Scripts
 
         public void Select()
         {
-            // _animator.SetFloat("Speed", 1f);
-            // _animator.Play("PressButton",0,0);
             IsSelected = true;
         }
 
         public void DeSelect()
         {
-            // _animator.SetFloat("Speed", -1f);
-            // _animator.Play("PressButton",0,1);
             IsSelected = false;
         }
 

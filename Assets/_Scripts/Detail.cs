@@ -1,21 +1,20 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Scripts
 {
     public class Detail: MonoBehaviour
     {
-        public DetailType detailType;
-        public Transform center;
-        public CameraRotation camera;
-        public Outline outline;
-        public bool isInspectable;
+        [SerializeField] private DetailType detailType;
+        [SerializeField] private new CameraRotation camera;
+        [SerializeField] private Outline outline;
+        [SerializeField] private bool isInspectable;
         
         private Animator _animator;
         
         public bool IsInspecting { get; private set; }
+        public DetailType DetailType => detailType;
 
-
+        
         public void Initialize()
         {
             _animator = GetComponent<Animator>();
@@ -58,15 +57,6 @@ namespace _Scripts
         {
             gameObject.SetActive(false);
         }
-        
-        public void CameraOff()
-        {
-            camera.CameraOff();
-        }
-        public void CameraOn()
-        {
-            camera.CameraOn(1);
-        }
 
         public void OutlineOn()
         {
@@ -76,6 +66,16 @@ namespace _Scripts
         public void OutlineOff()
         {
             outline.TurnOffOutline();
+        }
+        
+        private void CameraOff()
+        {
+            camera.CameraOff();
+        }
+        
+        private void CameraOn()
+        {
+            camera.CameraOn(1);
         }
     }
 }

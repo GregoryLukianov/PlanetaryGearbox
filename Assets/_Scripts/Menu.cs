@@ -1,27 +1,28 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Scripts
 {
     public class Menu: MonoBehaviour
     {
-        [SerializeField] private Button PlanetaryGearboxButton;
-        [SerializeField] ButtonsController buttons;
+        [SerializeField] private Button planetaryGearboxButton;
+        [SerializeField] private ButtonsController buttons;
+        
         public event Action OnPlanetaryGearboxOpenButtonPressed;
         public event Action<DetailType> OnDetailChosen;
         public event Action<DetailType> OnPointerEnterButton;
         public event Action<DetailType> OnPointerExitButton;
-
         public event Action<DetailType> OnToggleSwitched;
-
         public event Action OnLinesStatusChanges;
-
-        private void Start()
+        
+        
+        public void Initialize()
         {
-            foreach (var button in buttons.buttonComponents)
+            buttons.Initialize();
+            foreach (var button in buttons.ButtonComponents)
             {
-                button.Initialize();
                 button.OnPointerEnterButton += EnterPointer;
                 button.OnPointerExitButton += ExitPointer;
             }
@@ -39,30 +40,36 @@ namespace _Scripts
 
         public void ChooseDetail(ButtonComponent buttonComponent)
         {
-            PlanetaryGearboxButton.interactable = !PlanetaryGearboxButton.interactable;
-            buttons.ChooseButton(buttonComponent.detailType);
-            OnDetailChosen?.Invoke(buttonComponent.detailType);
+            planetaryGearboxButton.interactable = !planetaryGearboxButton.interactable;
+            
+            buttons.ChooseButton(buttonComponent.DetailType);
+            
+            OnDetailChosen?.Invoke(buttonComponent.DetailType);
         }
         
         public void SwitchToggle(ButtonComponent buttonComponent)
         {
-            
-            OnToggleSwitched?.Invoke(buttonComponent.detailType);
-        }
-        
-        public void EnterPointer(DetailType detailType)
-        {
-            OnPointerEnterButton?.Invoke(detailType);
-        }
-        
-        public void ExitPointer(DetailType detailType)
-        {
-            OnPointerExitButton?.Invoke(detailType);
+            OnToggleSwitched?.Invoke(buttonComponent.DetailType);
         }
 
         public void ChangeLineStatus()
         {
             OnLinesStatusChanges?.Invoke();
+        }
+
+        public void Exit()
+        {
+            SceneManager.LoadScene(0);
+        }
+        
+        private void EnterPointer(DetailType detailType)
+        {
+            OnPointerEnterButton?.Invoke(detailType);
+        }
+        
+        private void ExitPointer(DetailType detailType)
+        {
+            OnPointerExitButton?.Invoke(detailType);
         }
     }
 }

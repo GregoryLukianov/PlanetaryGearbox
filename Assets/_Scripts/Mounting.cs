@@ -1,50 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Scripts
 {
     public class Mounting: MonoBehaviour
     {
-        public List<DetailType> detailTypes;
+        [SerializeField] private List<DetailType> detailTypes;
+        [SerializeField] private List<MountingLineRender> mountingLineRenders;
 
-        public List<MountingLineRender> mountingLineRenders;
+        private bool _isActive;
         
-        public bool IsActive { get; private set; }
+        public List<DetailType> DetailTypes=> detailTypes;
+        
 
-        private void Start()
+        public void Initialize()
         {
-            IsActive = true;
+            _isActive = true;
+
+            foreach (var mountingLineRender in mountingLineRenders)
+                mountingLineRender.Initialize();
         }
 
         public void Change()
         {
-            if (IsActive)
-            {
+            if (_isActive)
                 Off();
-            }
             else
-            {
                 On();
-            }
         }
         
         public void On()
         {
             foreach (var mountingLineRender in mountingLineRenders)
-            {
                 mountingLineRender.TurnOn();
-            }
-            IsActive = true;
+            
+            _isActive = true;
         }
 
         public void Off()
         {
             foreach (var mountingLineRender in mountingLineRenders)
-            {
                 mountingLineRender.TurnOff();
-            }
-            IsActive = false;
+            
+            _isActive = false;
         }
     }
 }

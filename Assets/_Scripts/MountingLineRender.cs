@@ -1,18 +1,15 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _Scripts
 {
     public class MountingLineRender: MonoBehaviour
     {
-        public Transform mountingPoint;
+        [SerializeField] private Transform mountingPoint;
         
-        private Transform Center => transform;
         private LineRenderer _lineRenderer;
         
-
         
-        private void Start()
+        public void Initialize()
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 2; 
@@ -20,7 +17,7 @@ namespace _Scripts
 
         private void Update()
         {
-            _lineRenderer.SetPosition(0, Center.position);
+            _lineRenderer.SetPosition(0, transform.position);
             _lineRenderer.SetPosition(1, mountingPoint.position);
         }
 

@@ -5,18 +5,15 @@ namespace _Scripts
 {
     public class PlanetaryGearbox: MonoBehaviour
     {
-        public CameraRotation cameraRotation;
+        [SerializeField] private CameraRotation cameraRotation;
+        [SerializeField] private Detail[] details;
         
-        [SerializeField] Detail[] details;
-
-        public bool IsOpened { get; private set; }
-
-        private Detail[] _details;
-
+        private bool _isOpened;
         
-        private void Start()
+        
+        public void Initialize()
         {
-            IsOpened = false;
+            _isOpened = false;
             foreach (var detail in details)
             {
                 detail.Initialize();
@@ -26,35 +23,15 @@ namespace _Scripts
 
         public void ChangePlanetaryGearboxStatus()
         {
-            if(IsOpened)
+            if(_isOpened)
                 Close();
             else
                 Open();
         }
-        
-        public void Open()
-        {
-            foreach (var detail in details)
-            {
-                detail.Open();
-            }
-
-            IsOpened = true;
-        }
-        
-        public void Close()
-        {
-            foreach (var detail in details)
-            {
-                detail.Close();
-            }
-
-            IsOpened = false;
-        }
 
         public void SelectDetail(DetailType detailType)
         {
-            var activeDetail = Array.Find(details, x => x.detailType == detailType);
+            var activeDetail = Array.Find(details, x => x.DetailType == detailType);
             if (activeDetail.IsInspecting)
             {
                 ShowDetails();
@@ -68,29 +45,49 @@ namespace _Scripts
                 cameraRotation.CameraOff();
             }
         }
-
-        public void HideDetails()
-        {
-            foreach (var detail in details)
-                detail.Hide();
-        }
-
-        public void ShowDetails()
-        {
-            foreach (var detail in details)
-                detail.Show();
-        }
         
         public void OutlineDetail(DetailType detailType)
         {
-            var activeDetail = Array.Find(details, x => x.detailType == detailType);
+            var activeDetail = Array.Find(details, x => x.DetailType == detailType);
             activeDetail.OutlineOn();
         }
 
         public void DeOutlineDetail(DetailType detailType)
         {
-            var activeDetail = Array.Find(details, x => x.detailType == detailType);
+            var activeDetail = Array.Find(details, x => x.DetailType == detailType);
             activeDetail.OutlineOff();
+        }
+        
+        private void Open()
+        {
+            foreach (var detail in details)
+            {
+                detail.Open();
+            }
+
+            _isOpened = true;
+        }
+        
+        private void Close()
+        {
+            foreach (var detail in details)
+            {
+                detail.Close();
+            }
+
+            _isOpened = false;
+        }
+
+        private void HideDetails()
+        {
+            foreach (var detail in details)
+                detail.Hide();
+        }
+
+        private void ShowDetails()
+        {
+            foreach (var detail in details)
+                detail.Show();
         }
     }
 }
