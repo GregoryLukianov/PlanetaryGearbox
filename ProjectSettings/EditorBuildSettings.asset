@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/PlanetaryReductorScene.unity
+    path: Assets/_Scenes/StartScene.unity
+    guid: b43610f881ea678479ce6a7f3cadab16
+  - enabled: 1
+    path: Assets/_Scenes/WorkScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects: {}
